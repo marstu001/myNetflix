@@ -1,0 +1,61 @@
+SET NAMES utf8mb4;
+
+CREATE TABLE IF NOT EXISTS goscieportalu (
+	id           INT AUTO_INCREMENT PRIMARY KEY,
+	ipaddress    VARCHAR(45)  NOT NULL,
+	`datetime`   DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	przegladarka TEXT         NULL,
+	ekran        VARCHAR(20)  NULL,
+	okno         VARCHAR(20)  NULL,
+	kolory       TINYINT UNSIGNED NULL,
+	ciasteczka   TINYINT(1)   NULL,
+	java         TINYINT(1)   NULL,
+	jezyk        VARCHAR(20)  NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS users (
+	id       INT AUTO_INCREMENT PRIMARY KEY,
+	username VARCHAR(128) NOT NULL,
+	password VARCHAR(128) NOT NULL,
+	avatar   VARCHAR(255) NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
+
+CREATE TABLE IF NOT EXISTS filmtype (
+	idft INT AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(60) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
+
+CREATE TABLE IF NOT EXISTS film (
+	idf      INT AUTO_INCREMENT PRIMARY KEY,
+	title   VARCHAR(255) NOT NULL,
+	director   VARCHAR(255) NOT NULL,
+	subtitles   MEDIUMTEXT NULL,
+	filename    VARCHAR(255) NOT NULL,
+	idft     INT NOT NULL,
+	idu                  INT NOT NULL,
+	`datetime`           DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	FOREIGN KEY (idu) REFERENCES users(id) ON DELETE CASCADE,
+	FOREIGN KEY (idft) REFERENCES filmtype(idft)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
+
+CREATE TABLE IF NOT EXISTS playlistname (
+	idpl       INT AUTO_INCREMENT PRIMARY KEY,
+	idu        INT NOT NULL,
+	name       VARCHAR(150) NOT NULL,
+	public     TINYINT(1) NOT NULL DEFAULT 0,
+	`datetime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	FOREIGN KEY (idu) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
+
+CREATE TABLE IF NOT EXISTS playlistdatabase (
+	idpldb INT AUTO_INCREMENT PRIMARY KEY,
+	idpl   INT NOT NULL,
+	idf INT NOT NULL,
+	UNIQUE KEY pl_poz (idpl, idf),
+	FOREIGN KEY (idpl) REFERENCES playlistname(idpl) ON DELETE CASCADE,
+	FOREIGN KEY (idf) REFERENCES film(idf) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
+
+INSERT INTO filmtype (name)
+SELECT name FROM (SELECT 'dokument' AS name UNION ALL SELECT 'reportaż' UNION ALL SELECT 'publicystyka' UNION ALL SELECT 'film akcji' UNION ALL SELECT 'sci-fi' UNION ALL SELECT 'horror' UNION ALL SELECT 'familijny' UNION ALL SELECT 'przyrodniczy' UNION ALL SELECT 'koncert' UNION ALL SELECT 'animowany' UNION ALL SELECT 'inny') AS g
+WHERE (SELECT COUNT(*) FROM filmtype) = 0;
