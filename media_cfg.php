@@ -1,0 +1,28 @@
+<?php declare(strict_types=1);
+
+const MEDIA = [
+	'nazwa'       => 'myNetflix',
+	'tabela'      => 'film',
+	'id'          => 'idf',
+	'tytul'       => 'title',
+	'autor'       => 'director',
+	'tekst'       => 'subtitles',
+	'plik'        => 'filename',
+	'gat'         => 'idft',
+	'gat_tabela'  => 'filmtype',
+	'gat_nazwa'   => 'name',
+	'katalog'     => 'films',
+	'roz'         => 'mp4',
+	'mime'        => 'video/mp4',
+	'tag'         => 'video',
+	'napisy_vtt'  => true,
+	'jedn'        => 'film',
+	'mn'          => 'filmy',
+	'dop'         => 'filmu',
+	'dop_mn'      => 'filmów',
+	'moje'        => 'Moje filmy',
+	'autor_l'     => 'Reżyser',
+	'tekst_l'     => 'Napisy',
+	'ikona'       => 'bi-film',
+	'gatunki'     => ['dokument', 'reportaż', 'publicystyka', 'film akcji', 'sci-fi', 'horror', 'familijny', 'przyrodniczy', 'koncert', 'animowany', 'inny'],
+];
